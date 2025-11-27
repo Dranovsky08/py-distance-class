@@ -12,7 +12,7 @@ class Distance:
         return f"Distance: {self.km} kilometers.\n"
 
     def __repr__(self) -> str:
-        return f"Distance(km={self.km})\n"
+        return f"Distance(km={self.km})"
 
     def __add__(self, other: Union[Number, "Distance"]) -> "Distance":
         value = self._value(other)
