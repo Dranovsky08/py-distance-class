@@ -1,9 +1,12 @@
 from typing import Union
 
 
+Number = Union[int, float]
+
+
 class Distance:
     def __init__(self, km: float) -> None:
-        self.km = km
+        self.km = float(km)
 
     def __str__(self) -> str:
         return f"Distance: {self.km} kilometers."
@@ -11,38 +14,34 @@ class Distance:
     def __repr__(self) -> str:
         return f"Distance(km={self.km})"
 
-    def __add__(self, other: Union[float, "Distance"]) -> "Distance":
-        if isinstance(other, Distance):
-            return Distance(self.km + other.km)
-        return Distance(self.km + float(other))
+    def __add__(self, other: Union[Number, "Distance"]) -> "Distance":
+        value = self._value(other)
+        return Distance(self.km + value)
 
-    def __iadd__(self, other: Union[float, "Distance"]) -> "Distance":
-        if isinstance(other, Distance):
-            self.km += other.km
-        else:
-            self.km += float(other)
+    def __iadd__(self, other: Union[Number, "Distance"]) -> "Distance":
+        self.km += self._value(other)
         return self
 
-    def __mul__(self, other: float) -> "Distance":
-        return Distance(self.km * other)
+    def __mul__(self, other: Number) -> "Distance":
+        return Distance(self.km * float(other))
 
-    def __truediv__(self, other: float) -> "Distance":
-        return Distance(round(self.km / other, 2))
+    def __truediv__(self, other: Number) -> "Distance":
+        return Distance(round(self.km / float(other), 2))
 
-    def _value(self, other: Union[float, "Distance"]) -> float:
+    def _value(self, other: Union[Number, "Distance"]) -> float:
         return other.km if isinstance(other, Distance) else float(other)
 
-    def __lt__(self, other: Union[float, "Distance"]) -> bool:
+    def __lt__(self, other: Union[Number, "Distance"]) -> bool:
         return self.km < self._value(other)
 
-    def __gt__(self, other: Union[float, "Distance"]) -> bool:
+    def __gt__(self, other: Union[Number, "Distance"]) -> bool:
         return self.km > self._value(other)
 
-    def __eq__(self, other: Union[float, "Distance"]) -> bool:
+    def __eq__(self, other: Union[Number, "Distance"]) -> bool:
         return self.km == self._value(other)
 
-    def __le__(self, other: Union[float, "Distance"]) -> bool:
+    def __le__(self, other: Union[Number, "Distance"]) -> bool:
         return self.km <= self._value(other)
 
-    def __ge__(self, other: Union[float, "Distance"]) -> bool:
+    def __ge__(self, other: Union[Number, "Distance"]) -> bool:
         return self.km >= self._value(other)
